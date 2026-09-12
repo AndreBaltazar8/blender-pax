@@ -1,0 +1,38 @@
+name: Verify
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: addon/blender_pax/runtime/package-lock.json
+      - run: npm ci --prefix addon/blender_pax/runtime
+      - run: node --test addon/blender_pax/runtime/decode.test.mjs
+      - name: Install Blender 4.5.3
+        run: |
+          curl --fail --location --retry 3 https://download.blender.org/release/Blender4.5/blender-4.5.3-linux-x64.tar.xz -o /tmp/blender.tar.xz
+          tar -xf /tmp/blender.tar.xz -C /tmp
+          echo /tmp/blender-4.5.3-linux-x64 >> "$GITHUB_PATH"
+      - name: Blender round trip
+        run: blender --background --factory-startup --python-exit-code 1 --python tests/blender_roundtrip.py
+      - name: Package and validate
+        run: |
+          python3 scripts/package.py
+          blender --factory-startup --command extension validate dist/blender_pax-0.1.0.zip
+      - name: Clean extension install and runtime setup
+        env:
+          BLENDER_USER_RESOURCES: /tmp/pax-clean-profile
+          PAX_TEST_INSTALLED: '1'
+        run: |
+          blender --factory-startup --command extension install-file -r user_default dist/blender_pax-0.1.0.zip
+          blender --background --factory-startup --online-mode --python-exit-code 1 --python tests/blender_roundtrip.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: blender-pax
+          path: dist/*.zip

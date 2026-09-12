@@ -1,0 +1,9 @@
+{
+  "name":"blender-pax-runtime","version":"0.1.0","private":true,"type":"module",
+  "engines":{"node":">=24"},
+  "dependencies":{
+    "convert-pax":"git+https://github.com/AndreBaltazar8/convert-pax.git#14f172a158c19933fa74119602641b272aee9673",
+    "spec-pax":"git+https://github.com/AndreBaltazar8/spec-pax.git#1ba93f9e1df8b821a6e5bedeacff6bd0d36b9af9",
+    "sharp":"0.35.4"
+  }
+}

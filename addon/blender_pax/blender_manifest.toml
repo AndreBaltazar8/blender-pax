@@ -1,0 +1,14 @@
+schema_version = "1.0.0"
+id = "blender_pax"
+version = "0.1.0"
+name = "PAX Import / Export"
+tagline = "Import and export progressively streamable PAX scenes"
+maintainer = "André Baltazar"
+type = "add-on"
+website = "https://github.com/AndreBaltazar8/blender-pax"
+tags = ["Import-Export"]
+blender_version_min = "4.5.0"
+license = ["SPDX:GPL-3.0-or-later"]
+[permissions]
+files = "Read and write PAX assets and codecs in user storage"
+network = "Download pinned codecs when Install Runtime is clicked"
