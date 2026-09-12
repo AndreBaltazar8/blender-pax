@@ -102,6 +102,8 @@ attribute/index data and pixels, including KTX2 mips, both texture layouts, shar
 meshes, instancing, skin matrices and animations, and reject corrupted packets.
 `tests/blender_ui.py` exercises the actual export browser and captures its panel;
 it requires a display (an Xvfb display works on Linux).
+`tests/blender_modal.py` verifies asynchronous export and import in a live Blender
+window; run it with `blender --factory-startup --python tests/blender_modal.py`.
 
 For source-only development, put `addon` on Blender's Python path, import
 `blender_pax`, and call `register()`. Tests use `PAX_RUNTIME_ROOT` to point at the
